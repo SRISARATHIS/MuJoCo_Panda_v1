@@ -3,8 +3,6 @@
 
   <option timestep="0.002" gravity="0 0 -9.81"/>
 
-  <include file="assets/franka_emika_panda/panda.xml"/>
-  
   <asset>
     <!-- Simple XML colors -->
     <material name="station_mat" rgba="0.72 0.72 0.70 1"/>
