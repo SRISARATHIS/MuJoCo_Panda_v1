@@ -1,0 +1,11 @@
+
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# MuJoCo/cache/temp
+*.mjb
+
+# optional large raw Blender files
+*.blend1
