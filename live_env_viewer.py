@@ -8,7 +8,7 @@ import mujoco.viewer
 import numpy as np
 
 
-MODEL_PATH = Path(__file__).parent / "scene" / "scene.xml"
+MODEL_PATH = Path(__file__).parent / "scene" / "scene_color.xml"
 
 HOME_QPOS = np.array([
     0.0,      # joint 1
@@ -47,15 +47,74 @@ def get_observation(model, data):
         data.ctrl.copy(),
     ])
 
-
 def print_state(data):
+    joint_names = [
+        "joint1",
+        "joint2",
+        "joint3",
+        "joint4",
+        "joint5",
+        "joint6",
+        "joint7",
+        "finger_left",
+        "finger_right",
+    ]
 
-    print("\n--- Robot state changed ---")
-    print(f"qpos: {np.round(data.qpos, 4)}")
-    print(f"qvel: {np.round(data.qvel, 4)}")
-    print(f"ctrl: {np.round(data.ctrl, 4)}")
-    print("Type 'reset' + Enter to return to home pose, or 'q' + Enter to quit.")
+    actuator_names = [
+        "actuator1",
+        "actuator2",
+        "actuator3",
+        "actuator4",
+        "actuator5",
+        "actuator6",
+        "actuator7",
+        "gripper",
+    ]
 
+    print("\n" + "=" * 70)
+    print("ROBOT STATE")
+    print("=" * 70)
+
+    print("\nJoint positions / qpos")
+    print("-" * 70)
+    print(f"{'name':<15} {'value':>12}")
+    print("-" * 70)
+
+    for i, value in enumerate(data.qpos):
+        name = joint_names[i] if i < len(joint_names) else f"qpos_{i}"
+        print(f"{name:<15} {value:>12.4f}")
+
+    print("\nJoint velocities / qvel")
+    print("-" * 70)
+    print(f"{'name':<15} {'value':>12}")
+    print("-" * 70)
+
+    for i, value in enumerate(data.qvel):
+        name = joint_names[i] if i < len(joint_names) else f"qvel_{i}"
+        print(f"{name:<15} {value:>12.4f}")
+
+    print("\nActuator controls / ctrl")
+    print("-" * 70)
+    print(f"{'name':<15} {'value':>12}")
+    print("-" * 70)
+
+    for i, value in enumerate(data.ctrl):
+        name = actuator_names[i] if i < len(actuator_names) else f"ctrl_{i}"
+        print(f"{name:<15} {value:>12.4f}")
+
+    print("\nQuick summary")
+    print("-" * 70)
+    print(f"arm qpos:     {np.round(data.qpos[:7], 3)}")
+    print(f"gripper qpos: {np.round(data.qpos[7:], 3)}")
+    print(f"arm ctrl:     {np.round(data.ctrl[:7], 3)}")
+    if len(data.ctrl) >= 8:
+        print(f"gripper ctrl: {data.ctrl[7]:.3f}")
+
+    print("\nCommands")
+    print("-" * 70)
+    print("reset  -> return to home pose")
+    print("q      -> quit viewer")
+    print("=" * 70)
 
 def terminal_command_available():
 

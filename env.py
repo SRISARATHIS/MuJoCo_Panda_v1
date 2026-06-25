@@ -30,7 +30,7 @@ class PandaTeleopStationEnv(gym.Env):
         super().__init__()
 
         if model_path is None:
-            model_path = Path(__file__).parent / "scene" / "scene.xml"
+            model_path = Path(__file__).parent / "scene" / "scene_color.xml"
 
         self.model_path = Path(model_path)
         self.model = mujoco.MjModel.from_xml_path(str(self.model_path))
@@ -40,8 +40,7 @@ class PandaTeleopStationEnv(gym.Env):
         self.max_steps = max_steps
         self.current_step = 0
 
-        # Simple fixed target above the task area.
-        # You can tune this later based on your table/tray position.
+
         self.target_pos = np.array([0.45, 0.0, 0.75], dtype=np.float64)
 
         self.ee_body_id = self._find_body_id(["hand", "panda_hand", "link7"])

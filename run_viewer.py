@@ -4,7 +4,7 @@ import mujoco
 import mujoco.viewer
 
 
-MODEL_PATH = Path(__file__).parent / "scene" / "scene.xml"
+MODEL_PATH = Path(__file__).parent / "scene" / "scene_color.xml"
 
 
 def main():
