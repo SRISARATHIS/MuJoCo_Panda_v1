@@ -121,7 +121,6 @@ def terminal_command_available():
     readable, _, _ = select.select([sys.stdin], [], [], 0)
     return bool(readable)
 
-
 def main():
     model = mujoco.MjModel.from_xml_path(str(MODEL_PATH))
     data = mujoco.MjData(model)
@@ -168,7 +167,6 @@ def main():
                 previous_obs = current_obs.copy()
 
             time.sleep(0.01)
-
 
 if __name__ == "__main__":
     main()
