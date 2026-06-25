@@ -10,8 +10,6 @@ import numpy as np
 
 MODEL_PATH = Path(__file__).parent / "scene" / "scene.xml"
 
-# Franka Panda comfortable home pose.
-# 7 arm joints + 2 finger joints = nq 9 for your model.
 HOME_QPOS = np.array([
     0.0,      # joint 1
     -0.785,   # joint 2
@@ -26,22 +24,15 @@ HOME_QPOS = np.array([
 
 
 def reset_to_home(model, data):
-    """Reset simulation and place Panda in a useful home pose."""
-    mujoco.mj_resetData(model, data)
 
-    # Set qpos safely.
+    mujoco.mj_resetData(model, data)
     n = min(model.nq, len(HOME_QPOS))
     data.qpos[:n] = HOME_QPOS[:n]
-
-    # Zero velocities.
     data.qvel[:] = 0.0
 
-    # If actuators are position-like, set first 7 controls to arm home.
     if model.nu >= 7:
         data.ctrl[:7] = HOME_QPOS[:7]
 
-    # Gripper actuator in this model has range around 0 to 255.
-    # Keep it neutral/low.
     if model.nu >= 8:
         data.ctrl[7] = 0.0
 
@@ -49,7 +40,7 @@ def reset_to_home(model, data):
 
 
 def get_observation(model, data):
-    """Gymnasium-style observation."""
+
     return np.concatenate([
         data.qpos.copy(),
         data.qvel.copy(),
@@ -58,7 +49,7 @@ def get_observation(model, data):
 
 
 def print_state(data):
-    """Print compact live state."""
+
     print("\n--- Robot state changed ---")
     print(f"qpos: {np.round(data.qpos, 4)}")
     print(f"qvel: {np.round(data.qvel, 4)}")
@@ -67,7 +58,7 @@ def print_state(data):
 
 
 def terminal_command_available():
-    """Check if user typed something without blocking the viewer."""
+
     readable, _, _ = select.select([sys.stdin], [], [], 0)
     return bool(readable)
 
@@ -111,14 +102,12 @@ def main():
                     print("Exiting live viewer.")
                     break
 
-            # Detect meaningful robot changes.
             current_obs = get_observation(model, data)
 
             if not np.allclose(current_obs, previous_obs, atol=1e-4):
                 print_state(data)
                 previous_obs = current_obs.copy()
 
-            # Small sleep so terminal does not spam/CPU burn.
             time.sleep(0.01)
 
 
