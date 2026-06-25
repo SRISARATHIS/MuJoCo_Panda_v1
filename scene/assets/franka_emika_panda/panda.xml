@@ -114,10 +114,11 @@
     <mesh file="finger_0.obj"/>
     <mesh file="finger_1.obj"/>
   </asset>
-
+<!-- "-0.057 0.055 0.84" 
+-0.7854-->
   <worldbody>
     <light name="top" pos="0 0 2" mode="trackcom"/>
-    <body name="link0" childclass="panda">
+    <body name="link0" childclass="panda" pos="-0.065 0.25 1.125" euler="0 0 1.5708"> 
       <inertial mass="0.629769" pos="-0.041018 -0.00014 0.049974"
         fullinertia="0.00315 0.00388 0.004285 8.2904e-7 0.00015 8.2299e-6"/>
       <geom mesh="link0_0" material="off_white" class="visual"/>

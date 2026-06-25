@@ -4,26 +4,34 @@
   <option timestep="0.002" gravity="0 0 -9.81"/>
 
   <include file="assets/franka_emika_panda/panda.xml"/>
-  
+  ###
+  <visual>
+    <headlight ambient='0.35 0.35 0.35' diffuse='0.6 0.6 0.6' specular='0.1 0.1 0.1'/>
+    <rgba haze='0.45 0.48 0.52 1'/>
+    <quality shadowsize='1024'/>
+    <map znear='0.01' zfar='50'/>
+  </visual>
+  ###          
   <asset>
     <!-- Simple XML colors -->
     <material name="station_mat" rgba="0.72 0.72 0.70 1"/>
-    <material name="floor_mat" rgba="0.28 0.28 0.28 1"/>
+    <material name="floor_mat" rgba="0.45 0.45 0.45 1"/>
 
     <!-- Use the cleaned OBJ file -->
-    <mesh name="teleop_station_mesh" file="meshes/teleop_station_clean.obj"/>
+    <mesh name="teleop_station_mesh" file="meshes/teleop_clean2.obj"/>
   </asset>
 
   <worldbody>
     <!-- Lighting -->
+    <!-- diffuse="0.9 0.9 0.9" -->
     <light name="top_light"
            pos="0 0 4"
-           diffuse="0.9 0.9 0.9"
+           diffuse="0.45 0.45 0.45"
            specular="0.2 0.2 0.2"/>
 
     <light name="front_light"
            pos="2 -2 2"
-           diffuse="0.45 0.45 0.45"/>
+           diffuse="0.25 0.25 0.25"/>
 
     <!-- Camera view -->
     <camera name="overview"
